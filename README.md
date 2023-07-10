@@ -17,6 +17,6 @@ make
 ```
 docker build . -t linux-pam-baa
 
-docker run -v $PWD/bin:/linux-pam-baa/bin linux-pam-baa make
+docker run --rm -v $PWD/bin:/linux-pam-baa/bin linux-pam-baa make
 ```
 

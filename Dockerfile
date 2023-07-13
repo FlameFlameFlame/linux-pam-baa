@@ -17,3 +17,5 @@ COPY Makefile ./
 RUN mkdir bin
 COPY ./src/baa ./src/baa
 RUN make
+
+RUN cp ./bin/pam_baa.so /usr/lib/

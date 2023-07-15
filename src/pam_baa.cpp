@@ -1,7 +1,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <stdio.h>
-#include <threads.h>
 
 #include <security/pam_ext.h>
 #include <security/pam_modules.h>

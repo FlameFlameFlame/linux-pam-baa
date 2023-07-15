@@ -1,30 +1,28 @@
-SRC_DIR=src
-BIN_DIR=bin
-VENDOR_DIR=$(SRC_DIR)/vendor
-SRC_BAA_DIR=$(SRC_DIR)/baa
+DIR_SRC=src
+DIR_BIN=build
+
+LIB_NAME=pam_baa
+LIB_NAME_SRC=$(LIB_NAME).cpp
+LIB_NAME_O=$(LIB_NAME).o
+LIB_NAME_SO=$(LIB_NAME).so
+
+LIB_SRC=$(DIR_SRC)/$(LIB_NAME_SRC)
+LIB_O=$(DIR_BIN)/$(LIB_NAME_O)
+LIB_SO=$(DIR_BIN)/$(LIB_NAME_SO)
 
 CC=gcc
-CFLAGS_LIB_COMPILE=-fPIC -DPIC -O3 -c -W -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-CFLAGS_LIB_LINK=-shared -fPIC -DPIC -g -O3
-LIBS_INCLUDE_DIRS=-I$(VENDOR_DIR)/linux-pam/libpam/include -I$(VENDOR_DIR)/linux-pam -I$(VENDOR_DIR)/curl/include
-LIBPAM_LIB=$(VENDOR_DIR)/linux-pam/libpam/.libs/libpam.so
-LIBCURL_LIB=$(VENDOR_DIR)/curl/lib/libcurl.so
+CFLAGS_COMPILE=-fPIC -O3 -c -Wall -Wextra -Wno-unused-parameter
+CFLAGS_LINK=-shared -lcurl -lpam
 
 .PHONY: clean
 
-all: pam_baa.so
+all: $(LIB_SO)
 
-pam_baa.so: $(LIBPAM_LIB) pam_baa.o
-	$(CC) $(CFLAGS_LIB_LINK) $(LIBS_INCLUDE_DIRS) $(BIN_DIR)/pam_baa.o $(LIBPAM_LIB) $(LIBCURL_LIB) -o $(BIN_DIR)/pam_baa.so
+$(LIB_SO): $(LIB_O)
+	$(CC) $(CFLAGS_LINK) $(LIB_O) -o $(LIB_SO)
 
-pam_baa.o:
-	$(CC) $(CFLAGS_LIB_COMPILE) $(LIBS_INCLUDE_DIRS) $(SRC_BAA_DIR)/main.cpp -o $(BIN_DIR)/pam_baa.o
+$(LIB_O):
+	$(CC) $(CFLAGS_COMPILE) $(LIB_SRC) -o $(LIB_O)
 
-$(LIBPAM_LIB):
-	cd $(VENDOR_DIR)/linux-pam && ./autogen.sh && ./configure && make
-
-$(LIBCURL_LIB):
-	cd $(VENDOR_DIR)/curl && cmake . && make
-
-libpam: $(LIBPAM_LIB)
-
+clean:
+	rm -f $(LIB_O) $(LIB_SO)

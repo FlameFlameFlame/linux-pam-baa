@@ -1,3 +1,3 @@
 #%PAM-1.0
-auth		requisite			/linux-pam-baa/bin/pam_baa.so backend_url=https://en784p7scb206.x.pipedream.net ssl_verify_ignore=0
-account		required			/linux-pam-baa/bin/pam_baa.so backend_url=https://en784p7scb206.x.pipedream.net ssl_verify_ignore=0
+auth		requisite			/usr/lib/pam_baa.so backend_url=https://en784p7scb206.x.pipedream.net ssl_verify_ignore=0
+account		required			/usr/lib/pam_baa.so backend_url=https://en784p7scb206.x.pipedream.net ssl_verify_ignore=0
